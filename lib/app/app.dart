@@ -1,11 +1,16 @@
+import 'package:currency_converter/env.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
+
+  final Env env;
+
+  const App({
+    @required this.env
+  });
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
