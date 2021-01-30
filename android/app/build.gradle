@@ -45,6 +45,24 @@ android {
         versionName flutterVersionName
     }
 
+    flavorDimensions "app"
+    productFlavors {
+
+        development {
+            dimension "app"
+            applicationId "com.harol.currency_converter.dev"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        production {
+            dimension "app"
+            applicationId "com.harol.currency_converter"
+            versionCode 1
+            versionName "1.0"
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
