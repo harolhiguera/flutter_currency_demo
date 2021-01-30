@@ -1,6 +1,6 @@
 ## Currency Demo made with Flutter
 
-### Links of resources used to develope this Demo
+### Links of resources used to develop this Demo
 
 Description | URL
 -- | --
