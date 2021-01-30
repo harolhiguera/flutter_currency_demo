@@ -5,5 +5,5 @@
 Description | URL
 -- | --
 gitignore | https://github.com/flutter/flutter/blob/master/.gitignore
-
+Flavors for Flutter | https://flutter.dev/docs/deployment/flavors
 
