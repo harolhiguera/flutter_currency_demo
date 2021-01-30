@@ -1,4 +1,4 @@
-import 'package:currency_converter/env.dart';
+import 'package:currency_converter/main/env.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {

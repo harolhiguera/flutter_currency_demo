@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:currency_converter/app/app.dart';
-import 'package:currency_converter/env.dart';
+import 'package:currency_converter/main/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
