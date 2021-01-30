@@ -1,5 +1,9 @@
 ## Currency Demo made with Flutter
 
+### Features
+
+- This demo is configured with two flavours. Development and Production.
+
 ### Links of resources used to develop this Demo
 
 Description | URL
