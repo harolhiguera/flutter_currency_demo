@@ -1,0 +1,16 @@
+//
+//  production.xcconfig
+//  Runner
+//
+//  Created by Harol_Higuera on 2021/01/30.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+FLUTTER_FLAVOR=production
+PRODUCT_BUNDLE_IDENTIFIER=com.harol.currencyConverter
+DISPLAY_NAME=Currency Converter
+FLUTTER_TARGET=lib/main/main_production.dart
+FLUTTER_BUILD_NAME=1.0.0
+FLUTTER_BUILD_NUMBER=1
