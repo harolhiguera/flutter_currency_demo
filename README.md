@@ -2,8 +2,8 @@
 
 ### Features
 
-- This demo is configured with two flavours. **Development and Production**.
-- Architecture: State **Notifier**. 
+- Project Flavours. **Development and Production**.
+- Architecture: **State Notifier**. 
 - Code Generation: **Freezed**.
 
 ### Links of resources used to develop this Demo
