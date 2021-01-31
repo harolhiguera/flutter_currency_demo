@@ -29,9 +29,21 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
+  # State Notifier
+  state_notifier: ^0.6.0
+  flutter_state_notifier: ^0.6.1
+  provider: ^4.3.3
+
+  # Code generator
+  freezed_annotation:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Code generator
+  build_runner:
+  freezed:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

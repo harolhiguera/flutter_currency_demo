@@ -1,6 +1,7 @@
 import 'package:currency_converter/main/env.dart';
 import 'package:currency_converter/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
@@ -17,12 +18,38 @@ class App extends StatelessWidget {
       theme: ThemeData(
         // This is the theme of your application.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
+      builder: (context, child) {
+        return _Builder(
+          env: env,
+          childWidget: child,
+        );
+      },
+    );
+  }
+}
+
+class _Builder extends StatelessWidget {
+  final Env env;
+  final Widget childWidget;
+
+  const _Builder({
+    this.env,
+    this.childWidget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // https://pub.dev/documentation/provider/latest/provider/MultiProvider-class.html
+    return MultiProvider(
+      providers: [
+        Provider.value(
+          value: env,
+        ),
+      ],
+      child: childWidget,
     );
   }
 }
