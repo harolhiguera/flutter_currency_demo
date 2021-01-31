@@ -1,3 +1,4 @@
+import 'package:currency_converter/common/text_styles.dart';
 import 'package:currency_converter/screens/currencies/currencies_screen.dart';
 import 'package:currency_converter/screens/home/home_state.dart';
 import 'package:currency_converter/screens/home/home_state_notifier.dart';
@@ -34,21 +35,48 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<HomeState>();
 
-    if (!state.hasSelectedCurrency) {
-      return Center(
-        child: ElevatedButton(
-          child: Text('SELECT A CURRENCY'),
-          onPressed: () async {
-            final result = await Navigator.of(
-              context,
-              rootNavigator: true,
-            ).pushNamed(
-              CurrenciesScreen.routeName,
-            ) as bool;
-          },
-        ),
-      );
+    if (state.selectedCurrency == null) {
+      return Center(child: _buildSelectionButton(context, 'SELECT A CURRENCY'));
     }
-    return SizedBox();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Currency Selected',
+            style: AppTextStyles.title,
+          ),
+          SizedBox(height: 30),
+          Text(
+            state.selectedCurrency.name,
+            style: AppTextStyles.currencyName,
+          ),
+          SizedBox(height: 10),
+          Text(
+            state.selectedCurrency.code,
+            style: AppTextStyles.currencyCode,
+          ),
+          SizedBox(height: 50),
+          _buildSelectionButton(context, 'CHANGE THE CURRENCY')
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSelectionButton(BuildContext context, String label) {
+    return ElevatedButton(
+      child: Text(label),
+      onPressed: () async {
+        final result = await Navigator.of(
+          context,
+          rootNavigator: true,
+        ).pushNamed(
+          CurrenciesScreen.routeName,
+        ) as bool;
+        if (result) {
+          await context.read<HomeStateNotifier>().fetch();
+        }
+      },
+    );
   }
 }

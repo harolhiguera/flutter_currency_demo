@@ -46,7 +46,7 @@ class _Body extends StatelessWidget {
       itemBuilder: (context, int position) => _ListCell(
         code: state.currencies[position].code,
         name: state.currencies[position].name,
-        onSelectedItem: _onSelectedItem,
+        onSelectedItem: (code) => _onSelectedItem(context, code),
       ),
       separatorBuilder: (context, _) => Container(
         height: 1,
@@ -56,8 +56,9 @@ class _Body extends StatelessWidget {
     );
   }
 
-  Future<void> _onSelectedItem(String currencyCode) async {
-    print(currencyCode);
+  Future<void> _onSelectedItem(BuildContext context, String currencyCode) async {
+    await context.read<CurrenciesStateNotifier>().storeSelectedCurrency(currencyCode);
+    Navigator.of(context).pop(true);
   }
 }
 

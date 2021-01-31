@@ -6,21 +6,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesClient {
   static const _keyAppSettings = 'app_settings';
 
-  Future<AppSettings> setNextUpdatedAt({String nextUpdatedAt}) async {
+  Future<void> setNextUpdatedAt({String nextUpdatedAt}) async {
     final newSettings = (await loadAppSettings()).copyWith(
       nextUpdatedAt: nextUpdatedAt,
     );
     await _updateAppSettings(newSettings);
-    return newSettings;
   }
 
-  Future<AppSettings> setSelectedCurrencyCode(
-      {String selectedCurrencyCode}) async {
+  Future<void> setSelectedCurrencyCode({String selectedCurrencyCode}) async {
     final newSettings = (await loadAppSettings()).copyWith(
       selectedCurrencyCode: selectedCurrencyCode,
     );
     await _updateAppSettings(newSettings);
-    return newSettings;
   }
 
   Future<AppSettings> loadAppSettings() async {

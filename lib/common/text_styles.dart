@@ -14,4 +14,10 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
     fontSize: 18,
   );
+
+  static const TextStyle title = TextStyle(
+    color: Colors.blueAccent,
+    fontWeight: FontWeight.bold,
+    fontSize: 26,
+  );
 }
