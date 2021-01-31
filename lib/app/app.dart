@@ -1,3 +1,4 @@
+import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/main/env.dart';
 import 'package:currency_converter/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,9 @@ class _Builder extends StatelessWidget {
       providers: [
         Provider.value(
           value: env,
+        ),
+        Provider<SharedPreferencesClient>(
+          create: (BuildContext context) => SharedPreferencesClient(),
         ),
       ],
       child: childWidget,

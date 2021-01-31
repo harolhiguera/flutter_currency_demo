@@ -40,6 +40,9 @@ dependencies:
   # Data Storage
   shared_preferences: ^0.5.12+4
 
+  # To generate objects from Json
+  json_serializable: ^3.5.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
