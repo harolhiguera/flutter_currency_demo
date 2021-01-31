@@ -36,6 +36,14 @@ Local Storage - SharedPreferences | https://pub.dev/packages/shared_preferences
 Retrofit | https://pub.dev/packages/retrofit
 Persist data with SQLite | https://flutter.dev/docs/cookbook/persistence/sqlite
 
+### How to run this code.
+
+The following might work fine if you run it in Android Studio.
+
+- Clone the repository
+- run ``flutter pub get``
+- run ``flutter pub run build_runner build``
+
 ### TODO
 
 - Make it so the User is able to enter the desired amount for the selected currency and the conversion should be reflected for the other currencies.
