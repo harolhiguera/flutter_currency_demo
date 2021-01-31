@@ -1,4 +1,5 @@
 import 'package:currency_converter/data/api_client/rest_api_client.dart';
+import 'package:currency_converter/data/db/sq_lite_client.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/main/env.dart';
 import 'package:currency_converter/screens/currencies/currencies_screen.dart';
@@ -60,6 +61,9 @@ class _Builder extends StatelessWidget {
         ),
         Provider<RestApiClient>(
           create: (BuildContext context) => RestApiClient.create(env),
+        ),
+        Provider(
+          create: (BuildContext context) => SQFLiteClient(),
         ),
       ],
       child: childWidget,

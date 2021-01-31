@@ -1,4 +1,4 @@
-import 'package:currency_converter/data/api_client/rest_api_client.dart';
+import 'package:currency_converter/data/db/sq_lite_client.dart';
 import 'package:currency_converter/screens/currencies/currencies_state.dart';
 import 'package:state_notifier/state_notifier.dart';
 
@@ -18,15 +18,11 @@ class CurrenciesStateNotifier extends StateNotifier<CurrenciesState>
   }
 
   Future<void> fetch() async {
-    final apiClient = read<RestApiClient>();
-    final currenciesResponse = await apiClient.getAvailableCurrencies();
-    if (currenciesResponse == null) {
+    final dbClient = read<SQFLiteClient>();
+    final currencies = await dbClient.getAllCurrencies();
+    if (currencies.isEmpty) {
       return;
     }
-
-    final list = currenciesResponse.currencies.entries
-        .map((e) => CurrencyDataModel(e.key, e.value))
-        .toList();
-    state = state.copyWith(currencies: list);
+    state = state.copyWith(currencies: currencies);
   }
 }
