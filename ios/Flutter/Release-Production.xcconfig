@@ -1,0 +1,12 @@
+//
+//  Release-Production.xcconfig
+//  Runner
+//
+//  Created by Harol_Higuera on 2021/01/31.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Release.xcconfig"
+#include "production.xcconfig"
