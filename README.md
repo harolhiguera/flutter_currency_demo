@@ -4,6 +4,8 @@
 
 This is a simple Currency Converter app with some of the most important practices and configurations to develop real and complex cross-platform apps with Flutter. 
 
+![Screenshot](screenshot.jpg)
+
 ### Some Specifications
 
 - Currencies and rates are fetched from https://currencylayer.com/
