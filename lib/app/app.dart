@@ -1,3 +1,4 @@
+import 'package:currency_converter/data/api_client/rest_api_client.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/main/env.dart';
 import 'package:currency_converter/screens/home/home_screen.dart';
@@ -51,6 +52,9 @@ class _Builder extends StatelessWidget {
         ),
         Provider<SharedPreferencesClient>(
           create: (BuildContext context) => SharedPreferencesClient(),
+        ),
+        Provider<RestClient>(
+          create: (BuildContext context) => RestClient.create(env),
         ),
       ],
       child: childWidget,

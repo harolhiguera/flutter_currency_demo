@@ -43,13 +43,20 @@ dependencies:
   # To generate objects from Json
   json_serializable: ^3.5.1
 
+  # Retrofit
+  retrofit: any
+  logger: any  #for logging purpose
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # Code generator
-  build_runner:
-  freezed:
+  build_runner: any
+  freezed: any
+
+  # Retrofit
+  retrofit_generator: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

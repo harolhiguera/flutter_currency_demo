@@ -7,6 +7,7 @@
 - Code Generation: **Freezed**.
 - Local Storage:
   - **Share Preferences**
+- Networking: **Retrofit for Dart**
 
 ### Links of resources used to develop this Demo
 
@@ -18,3 +19,4 @@ state_notifier | https://github.com/rrousselGit/state_notifier
 flutter_state_notifier | https://pub.dev/packages/flutter_state_notifier
 Code Generator | https://github.com/rrousselGit/freezed
 Local Storage - SharedPreferences | https://pub.dev/packages/shared_preferences
+Retrofit | https://pub.dev/packages/retrofit

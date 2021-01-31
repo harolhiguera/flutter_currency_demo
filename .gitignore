@@ -209,3 +209,4 @@ app.*.symbols
 # Code generated
 lib/generated
 lib/**/*.freezed.dart
+lib/**/*.g.dart
