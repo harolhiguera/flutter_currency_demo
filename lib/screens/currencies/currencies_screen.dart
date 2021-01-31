@@ -50,7 +50,7 @@ class _Body extends StatelessWidget {
       ),
       separatorBuilder: (context, _) => Container(
         height: 1,
-        color: const Color(0xFFF2F4F7),
+        color: Colors.black26,
         margin: const EdgeInsets.symmetric(horizontal: 25),
       ),
     );
@@ -81,7 +81,7 @@ class _ListCell extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
