@@ -7,15 +7,15 @@ import 'package:retrofit/retrofit.dart';
 part 'rest_api_client.g.dart';
 
 @RestApi()
-abstract class RestClient {
-  factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
+abstract class RestApiClient {
+  factory RestApiClient(Dio dio, {String baseUrl}) = _RestApiClient;
 
-  factory RestClient.create(
+  factory RestApiClient.create(
     Env env,
   ) {
     final dio = Dio();
     dio.interceptors.add(_AuthInterceptor(env: env));
-    return _RestClient(dio, baseUrl: env.apiBaseUrl);
+    return _RestApiClient(dio, baseUrl: env.apiBaseUrl);
   }
 
   @GET("/list")

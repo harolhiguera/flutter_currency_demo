@@ -1,6 +1,7 @@
 import 'package:currency_converter/data/api_client/rest_api_client.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/main/env.dart';
+import 'package:currency_converter/screens/currencies/currencies_screen.dart';
 import 'package:currency_converter/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,10 @@ class App extends StatelessWidget {
           childWidget: child,
         );
       },
+      routes: {
+        HomeScreen.routeName: (_) => HomeScreen(),
+        CurrenciesScreen.routeName: (_) => CurrenciesScreen(),
+      },
     );
   }
 }
@@ -53,8 +58,8 @@ class _Builder extends StatelessWidget {
         Provider<SharedPreferencesClient>(
           create: (BuildContext context) => SharedPreferencesClient(),
         ),
-        Provider<RestClient>(
-          create: (BuildContext context) => RestClient.create(env),
+        Provider<RestApiClient>(
+          create: (BuildContext context) => RestApiClient.create(env),
         ),
       ],
       child: childWidget,

@@ -1,3 +1,4 @@
+import 'package:currency_converter/screens/currencies/currencies_screen.dart';
 import 'package:currency_converter/screens/home/home_state.dart';
 import 'package:currency_converter/screens/home/home_state_notifier.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,8 @@ import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/home_screen';
+
   @override
   Widget build(BuildContext context) {
     return StateNotifierProvider<HomeStateNotifier, HomeState>(
@@ -33,10 +36,19 @@ class _Body extends StatelessWidget {
 
     if (!state.hasSelectedCurrency) {
       return Center(
-        child: Text('Please select a preferable currency.'),
+        child: ElevatedButton(
+          child: Text('SELECT A CURRENCY'),
+          onPressed: () async {
+            final result = await Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamed(
+              CurrenciesScreen.routeName,
+            ) as bool;
+          },
+        ),
       );
     }
-
     return SizedBox();
   }
 }
