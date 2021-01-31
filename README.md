@@ -1,4 +1,4 @@
-## Currency Demo made with Flutter
+## Currency Converter Demo made with Flutter
 
 ### Features
 
