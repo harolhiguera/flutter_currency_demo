@@ -51,4 +51,4 @@ The following might work fine if you run it in Android Studio.
 
 ----
 
-This demo is a **Work in Progress**.  I will continue updating this project as well as this readme file.
+This demo is in **Work in Progress**.  I will continue updating this project as well as this readme file.
