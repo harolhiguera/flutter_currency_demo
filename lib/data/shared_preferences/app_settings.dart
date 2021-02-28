@@ -7,7 +7,6 @@ part 'app_settings.g.dart';
 abstract class AppSettings with _$AppSettings {
   const factory AppSettings({
     String nextUpdatedAt,
-    String selectedCurrencyCode,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

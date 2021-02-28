@@ -1,4 +1,6 @@
 import 'package:currency_converter/data/db/currencies_provider.dart';
+import 'package:currency_converter/data/db/saved_currencies_provider.dart';
+import 'package:currency_converter/data/db/usd_rates_provider.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,9 +12,13 @@ const int _databaseVersion = 1;
 class SQFLiteClient {
   Database _database;
   CurrenciesProvider _currenciesProvider;
+  UsdRateProvider _usdRateProvider;
+  SavedCurrencyProvider _savedCurrencyProvider;
 
   SQFLiteClient() {
     _currenciesProvider = CurrenciesProvider();
+    _usdRateProvider = UsdRateProvider();
+    _savedCurrencyProvider = SavedCurrencyProvider();
   }
 
   Future<Database> get _db async {
@@ -36,6 +42,8 @@ class SQFLiteClient {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute(_currenciesProvider.openTableQuery());
+    await db.execute(_usdRateProvider.openTableQuery());
+    await db.execute(_savedCurrencyProvider.openTableQuery());
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) {
@@ -63,5 +71,33 @@ class SQFLiteClient {
   Future<List<Currency>> getAllCurrencies() async {
     final client = await _db;
     return _currenciesProvider.getAllCurrencies(client);
+  }
+
+  /*
+   * Usd Rates
+   */
+
+  Future<void> replaceAllUsdRates(List<UsdRate> usdRates) async {
+    final client = await _db;
+    return _usdRateProvider.replaceAll(client, usdRates);
+  }
+
+  Future<List<UsdRate>> getUsdRates(List<String> codes) async {
+    final client = await _db;
+    return _usdRateProvider.getRates(client, codes);
+  }
+
+  /*
+   * Saved Currencies
+   */
+
+  Future<void> addSavedCurrency(String code) async {
+    final client = await _db;
+    return _savedCurrencyProvider.add(client, code);
+  }
+
+  Future<void> replaceSavedCurrency(String newCode, int index) async {
+    final client = await _db;
+    return _savedCurrencyProvider.replace(client, newCode, index);
   }
 }

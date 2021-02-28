@@ -13,13 +13,6 @@ class SharedPreferencesClient {
     await _updateAppSettings(newSettings);
   }
 
-  Future<void> setSelectedCurrencyCode({String selectedCurrencyCode}) async {
-    final newSettings = (await loadAppSettings()).copyWith(
-      selectedCurrencyCode: selectedCurrencyCode,
-    );
-    await _updateAppSettings(newSettings);
-  }
-
   Future<AppSettings> loadAppSettings() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey(_keyAppSettings)) {
