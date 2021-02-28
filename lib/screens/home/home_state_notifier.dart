@@ -5,7 +5,7 @@ import 'package:currency_converter/data/db/usd_rates_provider.dart';
 import 'package:currency_converter/data/shared_preferences/app_settings.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/screens/home/home_state.dart';
-import 'package:currency_converter/screens/home/widgets/home_builder.dart';
+import 'package:currency_converter/screens/home/home_builder.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 class HomeStateNotifier extends StateNotifier<HomeState> with LocatorMixin {
