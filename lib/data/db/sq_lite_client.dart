@@ -91,6 +91,11 @@ class SQFLiteClient {
    * Saved Currencies
    */
 
+  Future<List<SavedCurrency>> getAllSavedCurrencies() async {
+    final client = await _db;
+    return _savedCurrencyProvider.getAll(client);
+  }
+
   Future<void> addSavedCurrency(String code) async {
     final client = await _db;
     return _savedCurrencyProvider.add(client, code);
