@@ -58,9 +58,9 @@ class SQFLiteClient {
    * Currencies
    */
 
-  Future<Currency> getCurrency(String code) async {
+  Future<List<Currency>> getCurrencies(List<String> codes) async {
     final client = await _db;
-    return _currenciesProvider.getCurrency(client, code);
+    return _currenciesProvider.getCurrencies(client, codes);
   }
 
   Future<void> replaceAllCurrencies(List<Currency> currencies) async {

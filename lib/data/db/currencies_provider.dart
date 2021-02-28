@@ -47,14 +47,12 @@ class CurrenciesProvider {
     await _add(db, currencies);
   }
 
-  Future<Currency> getCurrency(Database db, String code) async {
-    final maps = await db.query(currenciesTableName,
-        where: '$_columnCode = ?', whereArgs: <dynamic>[code]);
-    if (maps.isNotEmpty) {
-      final currency = await Currency.fromMap(maps.first);
-      return currency;
-    }
-    return null;
+  Future<List<Currency>> getCurrencies(Database db, List<String> codes) async {
+    final maps = await db.rawQuery(
+        'SELECT * FROM $currenciesTableName '
+        'WHERE $_columnCode IN ?',
+        [codes]);
+    return maps.map((e) => Currency.fromMap(e)).toList();
   }
 
   Future<List<Map<String, dynamic>>> _getSortedCurrencies(
