@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 const String savedCurrenciesTableName = 'saved_currencies';
 const String _columnId = 'id';
-const String _columnIndex = 'index';
+const String _columnIndex = '_index';
 const String _columnCode = 'code';
 
 class SavedCurrency {

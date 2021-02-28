@@ -48,10 +48,11 @@ class CurrenciesProvider {
   }
 
   Future<List<Currency>> getCurrencies(Database db, List<String> codes) async {
-    final maps = await db.rawQuery(
-        'SELECT * FROM $currenciesTableName '
-        'WHERE $_columnCode IN ?',
-        [codes]);
+    final maps = await db.query(
+      currenciesTableName,
+      where: "$_columnCode IN (${codes.map((_) => '?').join(', ')})",
+      whereArgs: codes,
+    );
     return maps.map((e) => Currency.fromMap(e)).toList();
   }
 

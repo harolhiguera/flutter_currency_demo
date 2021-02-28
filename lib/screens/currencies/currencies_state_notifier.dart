@@ -1,5 +1,4 @@
 import 'package:currency_converter/data/db/sq_lite_client.dart';
-import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/screens/currencies/currencies_state.dart';
 import 'package:state_notifier/state_notifier.dart';
 
@@ -25,10 +24,5 @@ class CurrenciesStateNotifier extends StateNotifier<CurrenciesState>
       return;
     }
     state = state.copyWith(currencies: currencies);
-  }
-
-  Future<void> storeSelectedCurrency(String code) async {
-    final prefs = read<SharedPreferencesClient>();
-    return await prefs.setSelectedCurrencyCode(selectedCurrencyCode: code);
   }
 }

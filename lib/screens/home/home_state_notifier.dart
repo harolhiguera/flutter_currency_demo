@@ -1,9 +1,11 @@
 import 'package:currency_converter/data/api_client/rest_api_client.dart';
 import 'package:currency_converter/data/db/currencies_provider.dart';
 import 'package:currency_converter/data/db/sq_lite_client.dart';
+import 'package:currency_converter/data/db/usd_rates_provider.dart';
 import 'package:currency_converter/data/shared_preferences/app_settings.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/screens/home/home_state.dart';
+import 'package:currency_converter/screens/home/widgets/home_builder.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 class HomeStateNotifier extends StateNotifier<HomeState> with LocatorMixin {
@@ -21,42 +23,54 @@ class HomeStateNotifier extends StateNotifier<HomeState> with LocatorMixin {
   }
 
   Future<void> fetch() async {
+    await _fetchRemoteDataIfRequired();
+    final dbClient = read<SQFLiteClient>();
+
+    final currentSavedCurrencies = await dbClient.getAllSavedCurrencies();
+    final codeList = currentSavedCurrencies.map((e) => e.code).toList();
+    final currencyList = await dbClient.getCurrencies(codeList);
+
+    final modelList =
+        HomeBuilder.buildModelList(currentSavedCurrencies, currencyList);
+
+    state = state.copyWith(
+      modelList: modelList,
+    );
+  }
+
+  Future<void> addCurrency(String code) async {
+    final dbClient = read<SQFLiteClient>();
+    await dbClient.addSavedCurrency(code);
+    await fetch();
+  }
+
+  Future<void> _fetchRemoteDataIfRequired() async {
     final prefs = read<SharedPreferencesClient>();
     final appSettings = await prefs.loadAppSettings();
 
-    await _fetchRemoteDataIfRequired(appSettings);
-
-    if (appSettings.selectedCurrencyCode == null) {
-      return;
-    }
-
-    final dbClient = read<SQFLiteClient>();
-    final selectedCurrency =
-        await dbClient.getCurrency(appSettings.selectedCurrencyCode);
-    if (selectedCurrency != null) {
-      state = state.copyWith(selectedCurrency: selectedCurrency);
-    }
-  }
-
-  Future<void> _fetchRemoteDataIfRequired(AppSettings appSettings) async {
     if (!_shouldFetchRemoteData(appSettings)) {
       return;
     }
 
     final apiClient = read<RestApiClient>();
     final currenciesResponse = await apiClient.getAvailableCurrencies();
-    if (currenciesResponse == null) {
+    final ratesResponse = await apiClient.getRates();
+    if (currenciesResponse == null || ratesResponse == null) {
       return;
     }
-    final currencies = currenciesResponse.currencies.entries
-        .map((e) => Currency(e.key, e.value))
-        .toList();
 
     final dbClient = read<SQFLiteClient>();
-    await dbClient.replaceAllCurrencies(currencies);
+
+    // 1. Update currencies
+    await dbClient.replaceAllCurrencies(currenciesResponse.currencies.entries
+        .map((e) => Currency(e.key, e.value))
+        .toList());
+    // 2. Update Rates
+    await dbClient.replaceAllUsdRates(ratesResponse.quotes.entries
+        .map((e) => UsdRate(e.key.substring(3), e.value))
+        .toList());
 
     //  Refresh data no more frequently than every 30 minutes
-    final prefs = read<SharedPreferencesClient>();
     await prefs.setNextUpdatedAt(
       nextUpdatedAt:
           DateTime.now().add(Duration(minutes: 30)).toIso8601String(),

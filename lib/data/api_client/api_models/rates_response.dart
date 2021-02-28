@@ -9,7 +9,7 @@ abstract class RatesResponse with _$RatesResponse {
   factory RatesResponse({
     bool success,
     String source,
-    Map<String, double> quotes,
+    Map<String, num> quotes,
   }) = _RatesResponse;
 
   factory RatesResponse.fromJson(Map<String, dynamic> json) =>

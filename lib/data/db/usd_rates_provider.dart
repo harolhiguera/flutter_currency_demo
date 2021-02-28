@@ -7,7 +7,7 @@ const String _columnCode = 'code';
 
 class UsdRate {
   int id;
-  int rate;
+  num rate;
   String code;
 
   UsdRate(this.code, this.rate);
@@ -15,7 +15,7 @@ class UsdRate {
   UsdRate.fromMap(
     Map<String, dynamic> map,
   )   : id = map[_columnId] as int,
-        rate = map[_columnRate] as int,
+        rate = map[_columnRate] as num,
         code = map[_columnCode] as String;
 
   Map<String, dynamic> toMap() {
@@ -32,7 +32,7 @@ class UsdRateProvider {
     return '''
       CREATE TABLE $usdRatesTableName (
       $_columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
-      $_columnRate INTEGER,
+      $_columnRate REAL,
       $_columnCode TEXT)
       ''';
   }
@@ -67,9 +67,10 @@ class UsdRateProvider {
     Database db,
     List<String> codes,
   ) async {
-    return await db.rawQuery(
-        'SELECT * FROM $usdRatesTableName '
-        'WHERE $_columnCode IN ?',
-        [codes]);
+    return await db.query(
+      usdRatesTableName,
+      where: "$_columnCode IN (${codes.map((_) => '?').join(', ')})",
+      whereArgs: codes,
+    );
   }
 }

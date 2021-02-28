@@ -56,9 +56,9 @@ class _Body extends StatelessWidget {
     );
   }
 
-  Future<void> _onSelectedItem(BuildContext context, String currencyCode) async {
-    await context.read<CurrenciesStateNotifier>().storeSelectedCurrency(currencyCode);
-    Navigator.of(context).pop(true);
+  Future<void> _onSelectedItem(
+      BuildContext context, String currencyCode) async {
+    Navigator.of(context).pop(currencyCode);
   }
 }
 

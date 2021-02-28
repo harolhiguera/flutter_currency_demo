@@ -1,4 +1,3 @@
-import 'package:currency_converter/common/text_styles.dart';
 import 'package:currency_converter/screens/currencies/currencies_screen.dart';
 import 'package:currency_converter/screens/home/home_state.dart';
 import 'package:currency_converter/screens/home/home_state_notifier.dart';
@@ -19,64 +18,102 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Home'),
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                final code = await Navigator.of(
+                  context,
+                  rootNavigator: true,
+                ).pushNamed(
+                  CurrenciesScreen.routeName,
+                ) as String;
+                if (code.isNotEmpty) {
+                  await context.read<HomeStateNotifier>().addCurrency(code);
+                }
+              },
+            )
+          ],
         ),
-        body: const _Body(),
+        body: _Body(),
       ),
     );
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body({
-    Key key,
-  }) : super(key: key);
+class _Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
 
+class _BodyState extends State<_Body> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomeState>();
 
-    if (state.selectedCurrency == null) {
-      return Center(child: _buildSelectionButton(context, 'SELECT A CURRENCY'));
+    if (state.modelList.isEmpty) {
+      return SizedBox();
     }
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Currency Selected',
-            style: AppTextStyles.title,
-          ),
-          SizedBox(height: 30),
-          Text(
-            state.selectedCurrency.name,
-            style: AppTextStyles.currencyName,
-          ),
-          SizedBox(height: 10),
-          Text(
-            state.selectedCurrency.code,
-            style: AppTextStyles.currencyCode,
-          ),
-          SizedBox(height: 50),
-          _buildSelectionButton(context, 'CHANGE THE CURRENCY')
-        ],
-      ),
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: state.modelList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return _buildCellItem(
+          state.modelList[index],
+          context,
+        );
+      },
     );
   }
 
-  Widget _buildSelectionButton(BuildContext context, String label) {
-    return ElevatedButton(
-      child: Text(label),
-      onPressed: () async {
-        final result = await Navigator.of(
-          context,
-          rootNavigator: true,
-        ).pushNamed(
-          CurrenciesScreen.routeName,
-        ) as bool;
-        if (result) {
-          await context.read<HomeStateNotifier>().fetch();
-        }
-      },
+  Widget _buildCellItem(
+    HomeStateModel model,
+    BuildContext context,
+  ) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Text(
+            model.currencyName,
+          ),
+          Row(
+            children: [
+              Text(
+                model.code,
+              ),
+              Icon(
+                Icons.arrow_drop_down,
+                color: Colors.green,
+                size: 30.0,
+              ),
+              Expanded(
+                child: TextField(
+                  maxLines: 1,
+                  keyboardType: TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: false,
+                  ),
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFE5E8EF),
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
