@@ -7,21 +7,21 @@ const String _columnCode = 'code';
 
 class SavedCurrency {
   int id;
-  int order;
+  int index;
   String code;
 
-  SavedCurrency(this.code, this.order);
+  SavedCurrency(this.code, this.index);
 
   SavedCurrency.fromMap(
     Map<String, dynamic> map,
   )   : id = map[_columnId] as int,
-        order = map[_columnIndex] as int,
+        index = map[_columnIndex] as int,
         code = map[_columnCode] as String;
 
   Map<String, dynamic> toMap() {
     return {
       _columnId: id,
-      _columnIndex: order,
+      _columnIndex: index,
       _columnCode: code,
     };
   }
