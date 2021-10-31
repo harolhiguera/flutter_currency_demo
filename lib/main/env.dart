@@ -1,7 +1,7 @@
 class Env {
   Env({
-    this.apiBaseUrl,
-    this.apiAccessKey,
+    required this.apiBaseUrl,
+    required this.apiAccessKey,
   });
 
   final String apiBaseUrl;

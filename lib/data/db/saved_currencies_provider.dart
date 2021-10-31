@@ -10,21 +10,11 @@ class SavedCurrency {
   int index;
   String code;
 
-  SavedCurrency(this.code, this.index);
-
   SavedCurrency.fromMap(
     Map<String, dynamic> map,
   )   : id = map[_columnId] as int,
         index = map[_columnIndex] as int,
         code = map[_columnCode] as String;
-
-  Map<String, dynamic> toMap() {
-    return {
-      _columnId: id,
-      _columnIndex: index,
-      _columnCode: code,
-    };
-  }
 }
 
 class SavedCurrencyProvider {
@@ -57,10 +47,13 @@ class SavedCurrencyProvider {
     // Get the current quantity
     final count = Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $savedCurrenciesTableName'));
-    final nextIndex = count + 1;
+    final nextIndex = count ?? 0 + 1;
     // Add record to the list
-    final newItem = SavedCurrency(code, nextIndex);
-    return _insert(db, newItem);
+    return _insert(
+      db,
+      code: code,
+      index: nextIndex,
+    );
   }
 
   // Replace currency
@@ -69,15 +62,25 @@ class SavedCurrencyProvider {
     await db.rawDelete(
         'DELETE FROM $savedCurrenciesTableName WHERE $_columnIndex = ?',
         [index]);
-    final newItem = SavedCurrency(newCode, index);
-    return _insert(db, newItem);
+    return _insert(
+      db,
+      code: newCode,
+      index: index,
+    );
   }
 
   // Insert new item
-  Future<void> _insert(Database db, SavedCurrency newItem) async {
+  Future<void> _insert(
+    Database db, {
+    required String code,
+    required int index,
+  }) async {
     await db.insert(
       savedCurrenciesTableName,
-      newItem.toMap(),
+      {
+        _columnIndex: index,
+        _columnCode: code,
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

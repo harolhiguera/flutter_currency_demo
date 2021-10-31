@@ -10,10 +10,10 @@ const String _databaseName = 'currency_demo.db';
 const int _databaseVersion = 1;
 
 class SQFLiteClient {
-  Database _database;
-  CurrenciesProvider _currenciesProvider;
-  UsdRateProvider _usdRateProvider;
-  SavedCurrencyProvider _savedCurrencyProvider;
+  Database? _database;
+  late CurrenciesProvider _currenciesProvider;
+  late UsdRateProvider _usdRateProvider;
+  late SavedCurrencyProvider _savedCurrencyProvider;
 
   SQFLiteClient() {
     _currenciesProvider = CurrenciesProvider();
@@ -22,11 +22,11 @@ class SQFLiteClient {
   }
 
   Future<Database> get _db async {
-    if (_database != null) {
-      return _database;
+    final db = _database;
+    if (db != null) {
+      return db;
     }
-    _database = await init();
-    return _database;
+    return await init();
   }
 
   Future<Database> init() async {
@@ -63,7 +63,7 @@ class SQFLiteClient {
     return _currenciesProvider.getCurrencies(client, codes);
   }
 
-  Future<void> replaceAllCurrencies(List<Currency> currencies) async {
+  Future<void> replaceAllCurrencies(Map<String, String> currencies) async {
     final client = await _db;
     return _currenciesProvider.replaceAll(client, currencies);
   }
@@ -77,7 +77,7 @@ class SQFLiteClient {
    * Usd Rates
    */
 
-  Future<void> replaceAllUsdRates(List<UsdRate> usdRates) async {
+  Future<void> replaceAllUsdRates(Map<String, num> usdRates) async {
     final client = await _db;
     return _usdRateProvider.replaceAll(client, usdRates);
   }

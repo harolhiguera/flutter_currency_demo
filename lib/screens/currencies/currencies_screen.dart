@@ -19,17 +19,13 @@ class CurrenciesScreen extends StatelessWidget {
           title: Text('Currencies'),
           centerTitle: true,
         ),
-        body: const _Body(),
+        body: _Body(),
       ),
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<CurrenciesState>();
@@ -64,9 +60,9 @@ class _Body extends StatelessWidget {
 
 class _ListCell extends StatelessWidget {
   const _ListCell({
-    this.code,
-    this.name,
-    this.onSelectedItem,
+    required this.code,
+    required this.name,
+    required this.onSelectedItem,
   });
 
   final String code;

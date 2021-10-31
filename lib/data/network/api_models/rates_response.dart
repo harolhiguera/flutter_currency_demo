@@ -5,11 +5,13 @@ part 'rates_response.freezed.dart';
 part 'rates_response.g.dart';
 
 @freezed
-abstract class RatesResponse with _$RatesResponse {
+class RatesResponse with _$RatesResponse {
+  const RatesResponse._();
+
   factory RatesResponse({
-    bool success,
-    String source,
-    Map<String, num> quotes,
+    required bool success,
+    String? source,
+    Map<String, num>? quotes,
   }) = _RatesResponse;
 
   factory RatesResponse.fromJson(Map<String, dynamic> json) =>

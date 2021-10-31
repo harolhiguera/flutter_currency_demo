@@ -4,8 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'currencies_state.freezed.dart';
 
 @freezed
-abstract class CurrenciesState with _$CurrenciesState {
-  factory CurrenciesState({
+class CurrenciesState with _$CurrenciesState {
+  const CurrenciesState._();
+
+  const factory CurrenciesState({
     @Default(<Currency>[]) List<Currency> currencies,
   }) = _CurrenciesState;
 }

@@ -1,4 +1,4 @@
-import 'package:currency_converter/data/api_client/rest_api_client.dart';
+import 'package:currency_converter/data/network/rest_api_client.dart';
 import 'package:currency_converter/data/db/sq_lite_client.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
 import 'package:currency_converter/main/env.dart';
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
   final Env env;
 
   const App({
-    @required this.env,
+    required this.env,
   });
 
   @override
@@ -26,6 +26,9 @@ class App extends StatelessWidget {
       ),
       home: HomeScreen(),
       builder: (context, child) {
+        if (child == null) {
+          return SizedBox();
+        }
         return _Builder(
           env: env,
           childWidget: child,
@@ -44,8 +47,8 @@ class _Builder extends StatelessWidget {
   final Widget childWidget;
 
   const _Builder({
-    this.env,
-    this.childWidget,
+    required this.env,
+    required this.childWidget,
   });
 
   @override

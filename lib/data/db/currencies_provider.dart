@@ -10,21 +10,11 @@ class Currency {
   String name;
   String code;
 
-  Currency(this.code, this.name);
-
   Currency.fromMap(
     Map<String, dynamic> map,
   )   : id = map[_columnId] as int,
         name = map[_columnName] as String,
         code = map[_columnCode] as String;
-
-  Map<String, dynamic> toMap() {
-    return {
-      _columnId: id,
-      _columnName: name,
-      _columnCode: code,
-    };
-  }
 }
 
 class CurrenciesProvider {
@@ -42,7 +32,7 @@ class CurrenciesProvider {
     return maps.map((e) => Currency.fromMap(e)).toList();
   }
 
-  Future<void> replaceAll(Database db, List<Currency> currencies) async {
+  Future<void> replaceAll(Database db, Map<String, String> currencies) async {
     await _deleteAll(db);
     await _add(db, currencies);
   }
@@ -64,16 +54,18 @@ class CurrenciesProvider {
         'ORDER BY $_columnName');
   }
 
-  Future<void> _add(Database db, List<Currency> currencies) async {
+  Future<void> _add(Database db, Map<String, String> currencies) async {
     final batch = db.batch();
-    for (final currency in currencies) {
-      final map = currency.toMap();
-      batch.insert(currenciesTableName, map);
-    }
+    currencies.entries.forEach((e) {
+      batch.insert(currenciesTableName, {
+        _columnCode: e.key,
+        _columnName: e.value,
+      });
+    });
     await batch.commit();
   }
 
   Future<void> _deleteAll(Database db) async {
-    return db.delete(currenciesTableName);
+    await db.delete(currenciesTableName);
   }
 }

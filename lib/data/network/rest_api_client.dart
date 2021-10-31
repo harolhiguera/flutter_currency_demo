@@ -1,5 +1,5 @@
-import 'package:currency_converter/data/api_client/api_models/currencies_response.dart';
-import 'package:currency_converter/data/api_client/api_models/rates_response.dart';
+import 'package:currency_converter/data/network/api_models/currencies_response.dart';
+import 'package:currency_converter/data/network/api_models/rates_response.dart';
 import 'package:currency_converter/main/env.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -27,15 +27,16 @@ abstract class RestApiClient {
 
 class _AuthInterceptor extends InterceptorsWrapper {
   _AuthInterceptor({
-    this.env,
+    required this.env,
   });
 
   final Env env;
 
   @override
-  Future onRequest(RequestOptions options) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final accessKey = await env.apiAccessKey;
     options.queryParameters.addAll(<String, String>{'access_key': accessKey});
-    return super.onRequest(options);
+    return handler.next(options);
   }
 }

@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesClient {
   static const _keyAppSettings = 'app_settings';
 
-  Future<void> setNextUpdatedAt({String nextUpdatedAt}) async {
+  Future<void> setNextUpdatedAt({
+    required String nextUpdatedAt,
+  }) async {
     final newSettings = (await loadAppSettings()).copyWith(
       nextUpdatedAt: nextUpdatedAt,
     );
@@ -15,13 +17,12 @@ class SharedPreferencesClient {
 
   Future<AppSettings> loadAppSettings() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey(_keyAppSettings)) {
-      return const AppSettings();
-    }
-
     final value = prefs.getString(_keyAppSettings);
-    final map = jsonDecode(value) as Map<String, dynamic>;
-    return AppSettings.fromJson(map);
+    if (value != null) {
+      final map = jsonDecode(value) as Map<String, dynamic>;
+      return AppSettings.fromJson(map);
+    }
+    return AppSettings();
   }
 
   Future<void> _updateAppSettings(AppSettings appSettings) async {

@@ -1,11 +1,9 @@
-import 'package:currency_converter/data/api_client/rest_api_client.dart';
-import 'package:currency_converter/data/db/currencies_provider.dart';
+import 'package:currency_converter/data/network/rest_api_client.dart';
 import 'package:currency_converter/data/db/sq_lite_client.dart';
-import 'package:currency_converter/data/db/usd_rates_provider.dart';
 import 'package:currency_converter/data/shared_preferences/app_settings.dart';
 import 'package:currency_converter/data/shared_preferences/shared_preferences_client.dart';
-import 'package:currency_converter/screens/home/home_state.dart';
 import 'package:currency_converter/screens/home/home_builder.dart';
+import 'package:currency_converter/screens/home/home_state.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 class HomeStateNotifier extends StateNotifier<HomeState> with LocatorMixin {
@@ -62,13 +60,12 @@ class HomeStateNotifier extends StateNotifier<HomeState> with LocatorMixin {
     final dbClient = read<SQFLiteClient>();
 
     // 1. Update currencies
-    await dbClient.replaceAllCurrencies(currenciesResponse.currencies.entries
-        .map((e) => Currency(e.key, e.value))
-        .toList());
+    final currencies = currenciesResponse.currencies ?? <String, String>{};
+    await dbClient.replaceAllCurrencies(currencies);
+
     // 2. Update Rates
-    await dbClient.replaceAllUsdRates(ratesResponse.quotes.entries
-        .map((e) => UsdRate(e.key.substring(3), e.value))
-        .toList());
+    final quotes = ratesResponse.quotes ?? <String, num>{};
+    await dbClient.replaceAllUsdRates(quotes);
 
     //  Refresh data no more frequently than every 30 minutes
     await prefs.setNextUpdatedAt(
@@ -78,10 +75,11 @@ class HomeStateNotifier extends StateNotifier<HomeState> with LocatorMixin {
   }
 
   bool _shouldFetchRemoteData(AppSettings appSettings) {
-    if (appSettings.nextUpdatedAt == null) {
+    final nextUpdatedAtString = appSettings.nextUpdatedAt;
+    if (nextUpdatedAtString == null) {
       return true;
     }
-    final nextUpdatedAt = DateTime.parse(appSettings.nextUpdatedAt);
+    final nextUpdatedAt = DateTime.parse(nextUpdatedAtString);
     return DateTime.now().isAfter(nextUpdatedAt);
   }
 }

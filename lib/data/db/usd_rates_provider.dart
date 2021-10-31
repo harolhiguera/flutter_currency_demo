@@ -10,21 +10,11 @@ class UsdRate {
   num rate;
   String code;
 
-  UsdRate(this.code, this.rate);
-
   UsdRate.fromMap(
     Map<String, dynamic> map,
   )   : id = map[_columnId] as int,
         rate = map[_columnRate] as num,
         code = map[_columnCode] as String;
-
-  Map<String, dynamic> toMap() {
-    return {
-      _columnId: id,
-      _columnRate: rate,
-      _columnCode: code,
-    };
-  }
 }
 
 class UsdRateProvider {
@@ -37,22 +27,24 @@ class UsdRateProvider {
       ''';
   }
 
-  Future<void> replaceAll(Database db, List<UsdRate> usdRates) async {
+  Future<void> replaceAll(Database db, Map<String, num> usdRates) async {
     await _deleteAll(db);
     await _add(db, usdRates);
   }
 
-  Future<void> _add(Database db, List<UsdRate> usdRates) async {
+  Future<void> _add(Database db, Map<String, num> usdRates) async {
     final batch = db.batch();
-    for (final currency in usdRates) {
-      final map = currency.toMap();
-      batch.insert(usdRatesTableName, map);
-    }
+    usdRates.entries.forEach((e) {
+      batch.insert(usdRatesTableName, {
+        _columnCode: e.key.substring(3),
+        _columnRate: e.value,
+      });
+    });
     await batch.commit();
   }
 
   Future<void> _deleteAll(Database db) async {
-    return db.delete(usdRatesTableName);
+    await db.delete(usdRatesTableName);
   }
 
   Future<List<UsdRate>> getRates(
