@@ -1,4 +1,4 @@
-import 'package:currency_converter/app/app.dart';
+import 'package:currency_converter/app.dart';
 import 'package:flutter/material.dart';
 
 import 'env.dart';

@@ -1,4 +1,4 @@
-import 'package:currency_converter/common/text_styles.dart';
+import 'package:currency_converter/utils/app_text_styles.dart';
 import 'package:currency_converter/screens/currencies/currencies_state.dart';
 import 'package:currency_converter/screens/currencies/currencies_state_notifier.dart';
 import 'package:flutter/cupertino.dart';
