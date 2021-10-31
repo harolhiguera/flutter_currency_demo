@@ -1,5 +1,5 @@
-import 'package:currency_converter/data/network/api_models/currencies_response.dart';
-import 'package:currency_converter/data/network/api_models/rates_response.dart';
+import 'package:currency_converter/data/network/api_models/currencies/currencies_response.dart';
+import 'package:currency_converter/data/network/api_models/rates/rates_response.dart';
 import 'package:currency_converter/main/env.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
